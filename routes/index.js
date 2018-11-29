@@ -18,9 +18,9 @@ router.get('/', async(req,res) => {
 router.post('/',async(req,res)=>{
   
   try {
-    const {title,description} = req.body  
+    const {description} = req.body  
     const data = await quote.create({
-      title,
+      
       description
     })
     
@@ -36,11 +36,11 @@ router.put('/:id',async(req,res)=>{
 
   try {
     const id = req.params.id
-    const {title,description} = req.body
+    const {description} = req.body
     const data = await quote.update(
       {
         
-          title,
+          
           description
       },
       {
