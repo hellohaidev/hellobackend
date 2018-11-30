@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const {quote} = require('../models')
-/* GET Quote. */
+
+
+/* GET Quote */
 router.get('/', async(req,res) => {
 
   try {
@@ -13,6 +15,7 @@ router.get('/', async(req,res) => {
   }
  
 });
+
 
 /* ADD Quote. */
 router.post('/',async(req,res)=>{
