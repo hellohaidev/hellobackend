@@ -7,6 +7,7 @@ const logger = require('morgan');
 const indexRouter = require('./routes/index');
 const attitudeRouter = require('./routes/attitude')
 const providerRouter = require('./routes/provider')
+const fasilitatorRouter = require('./routes/fasilitator')
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api', indexRouter);
 app.use('/attitude', attitudeRouter);
 app.use('/provider', providerRouter);
+app.use('/fasilitator', fasilitatorRouter);
 
 
 app.listen(process.env.PORT ||  5000, function () {
