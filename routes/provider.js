@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {provider,lampung,jakarta,jateng,yogyakarta,jatim,bali,ntb} = require('../models')
+const {provider,lampung,jakarta,jateng,yogyakarta,jatim,bali,ntb,sumut} = require('../models')
 
 
 /**
@@ -480,6 +480,66 @@ router.delete('/ntb/:id',async(req,res)=>{
    try {
       const id = req.params.id
       const data = await ntb.destroy({where:{id:id}})
+      res.json('sukse hapus data ' + id)
+   } catch (error) {
+       res.json(error)
+   }
+})
+
+/**
+ * @description Sumut API
+ */
+
+router.get('/sumut',async(req,res)=>{
+    try {
+        const data = await sumut.findAll()
+        res.json(data)
+    } catch (error) {
+        res.json(error)
+    }
+})
+router.post('/sumut',async(req,res)=>{
+   try {
+       const {name,place,phone} = req.body
+       const data = await sumut.create(
+           {
+               name,
+               place,
+               phone
+           }
+       )
+       res.json(data)
+   } catch (error) {
+       res.json(error)
+   }
+})
+
+router.put('/sumut/:id',async(req,res)=>{
+   try {
+      const id = req.params.id
+      const {name,place,phone} = req.body
+      const data = await sumut.update(
+          {
+              name,
+              place,
+              phone
+          },
+          {
+             where : {
+                 id : id
+             }
+          }
+      )
+      res.json(data)
+   } catch (error) {
+       res.json(error)
+   }
+})
+
+router.delete('/sumut/:id',async(req,res)=>{
+   try {
+      const id = req.params.id
+      const data = await sumut.destroy({where:{id:id}})
       res.json('sukse hapus data ' + id)
    } catch (error) {
        res.json(error)

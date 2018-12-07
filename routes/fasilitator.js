@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {fasiljabar,fasillampung,fasiljakarta,fasiljateng,fasilyogya,fasiljatim,fasilbali,fasilntb} = require('../models')
+const {fasiljabar,fasillampung,fasiljakarta,fasiljateng,fasilyogya,fasiljatim,fasilbali,fasilntb,fasilsumut} = require('../models')
 
 
 /**
@@ -481,6 +481,66 @@ router.delete('/ntb/:id',async(req,res)=>{
       const id = req.params.id
       const data = await fasilntb.destroy({where:{id:id}})
       res.json('sukse hapus data ' + id)
+   } catch (error) {
+       res.json(error)
+   }
+})
+
+/**
+ * @description Sumut API
+ */
+
+router.get('/sumut',async(req,res)=>{
+    try {
+        const data = await fasilsumut.findAll()
+        res.json(data)
+    } catch (error) {
+        res.json(error)
+    }
+})
+router.post('/sumut',async(req,res)=>{
+   try {
+       const {name,place,phone} = req.body
+       const data = await fasilsumut.create(
+           {
+               name,
+               place,
+               phone
+           }
+       )
+       res.json(data)
+   } catch (error) {
+       res.json(error)
+   }
+})
+
+router.put('/sumut/:id',async(req,res)=>{
+   try {
+      const id = req.params.id
+      const {name,place,phone} = req.body
+      const data = await fasilsumut.update(
+          {
+              name,
+              place,
+              phone
+          },
+          {
+             where : {
+                 id : id
+             }
+          }
+      )
+      res.json(data)
+   } catch (error) {
+       res.json(error)
+   }
+})
+
+router.delete('/sumut/:id',async(req,res)=>{
+   try {
+      const id = req.params.id
+      const data = await fasilsumut.destroy({where:{id:id}})
+      res.json('sukse hapus data ' + data)
    } catch (error) {
        res.json(error)
    }
