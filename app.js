@@ -8,6 +8,7 @@ const indexRouter = require('./routes/index');
 const attitudeRouter = require('./routes/attitude')
 const providerRouter = require('./routes/provider')
 const fasilitatorRouter = require('./routes/fasilitator')
+const mapsRouter = require('./routes/maps')
 
 const app = express();
 
@@ -22,7 +23,8 @@ app.use('/api', indexRouter);
 app.use('/attitude', attitudeRouter);
 app.use('/provider', providerRouter);
 app.use('/fasilitator', fasilitatorRouter);
-
+app.use('/fasilitator', fasilitatorRouter);
+app.use('/map',mapsRouter);
 
 app.listen(process.env.PORT ||  5000, function () {
     console.log("app running on port.", process.env.PORT || 5000);
