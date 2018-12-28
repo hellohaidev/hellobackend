@@ -2,12 +2,112 @@
 
 <head>
   <title>Express</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <link rel="stylesheet" href="/stylesheets/style.css">
+  
+  
+  <style>
+    #map {
+      height:500px;
+      width:100%;
+    }
+  </style>
 </head>
 
 <body>
-  <h1>Express</h1>
-  <p>Welcome to Express</p>
+  <h1 class="text-center">Express</h1>
+  <p class="text-center">Welcome to Express</p>
+  <div id="map"></div>
+  
+
+
+  
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!-- Latest compiled JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+  <script>
+      let map;
+
+      let codeMarker = {
+        1: {
+            label : 'P',
+            icons : './images/icon-1.png'
+        },
+        2 : {
+          label : 'R',
+          icons : './images/icon-2.png'
+        },
+        3 : {
+          label : 'C',
+          icons : './images/icon-3.png'
+        }
+       };
+      function initMap() {
+        let centerPosition  = {lat: -7.351121, lng:  108.214554}
+        let map = new google.maps.Map(document.getElementById('map'), {
+          center: centerPosition,
+          zoom: 6
+        })
+
+        let infoWindow  = new google.maps.InfoWindow;
+        
+        const url = 'http://localhost:5000/map'
+        const data = axios.get(url)
+                    .then((result) => {
+                      const hasil = result.data
+
+                      hasil.map(item => {
+                        let compCode;
+                        if(item.kode === 1) {
+                            compCode = 'Pusat'
+                        }else if(item.kode === 2) {
+                            compCode = 'Regional'
+                        }else if(item.kode === 3 ){
+                            compCode = 'Cabang'
+                        } 
+                        //console for read data
+                        // console.log(item.longtitude)
+                        let name = item.name
+                        let point = new google.maps.LatLng(
+                          parseFloat(item.latitude),
+                          parseFloat(item.longtitude)
+                        )
+
+                        let contentString = `
+                                            <b>Lokasi</b> :  ${item.name} <br>
+                                            <b>Latitude</b> :  ${item.latitude} <br>
+                                            <b>Longtitude</b> :  ${item.longtitude} <br>
+                                            <b>Kode</b> :  ${compCode} <br>  
+                                            `
+                        let icon = codeMarker[item.kode] || {}
+                        let marker  = new google.maps.Marker(
+                          {
+                              position : point,
+                              map : map,
+                              label : icon.label,
+                              icon : icon.icons
+                          }                          
+                        );
+
+                        
+                        marker.addListener('click',function(){
+                          infoWindow.setContent(contentString)
+                          infoWindow.open(map,marker)
+                        })                
+
+                      })  
+                    }).catch((err) => {
+                      console.log(err)
+                    });
+
+      }
+    
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAllSqkCSUJfQwjNSWhbiaF7KGDsvuahPU&callback=initMap"
+    async defer></script>
 </body>
 
 </html>
