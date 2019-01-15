@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {fasiljabar,fasillampung,fasiljakarta,fasiljateng,fasilyogya,fasiljatim,fasilbali,fasilntb,fasilsumut} = require('../models')
+const {fasiljabar,fasillampung,fasiljakarta,fasiljateng,fasilyogya,fasiljatim,fasilbali,fasilntb,fasilsumut,fasilsumsel} = require('../models')
 
 
 /**
@@ -540,6 +540,67 @@ router.delete('/sumut/:id',async(req,res)=>{
    try {
       const id = req.params.id
       const data = await fasilsumut.destroy({where:{id:id}})
+      res.json('sukse hapus data ' + data)
+   } catch (error) {
+       res.json(error)
+   }
+})
+
+
+/**
+ * @description Sumsel API
+ */
+
+router.get('/sumsel',async(req,res)=>{
+    try {
+        const data = await fasilsumsel.findAll()
+        res.json(data)
+    } catch (error) {
+        res.json(error)
+    }
+})
+router.post('/sumsel',async(req,res)=>{
+   try {
+       const {name,place,phone} = req.body
+       const data = await fasilsumsel.create(
+           {
+               name,
+               place,
+               phone
+           }
+       )
+       res.json(data)
+   } catch (error) {
+       res.json(error)
+   }
+})
+
+router.put('/sumsel/:id',async(req,res)=>{
+   try {
+      const id = req.params.id
+      const {name,place,phone} = req.body
+      const data = await fasilsumsel.update(
+          {
+              name,
+              place,
+              phone
+          },
+          {
+             where : {
+                 id : id
+             }
+          }
+      )
+      res.json(data)
+   } catch (error) {
+       res.json(error)
+   }
+})
+
+router.delete('/sumsel/:id',async(req,res)=>{
+   try {
+      const id = req.params.id
+      const data = await fasilsumsel.destroy({where:{id:id}})
       res.json('sukse hapus data ' + data)
    } catch (error) {
        res.json(error)
