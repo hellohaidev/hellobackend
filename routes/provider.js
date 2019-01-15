@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {provider,lampung,jakarta,jateng,yogyakarta,jatim,bali,ntb,sumut} = require('../models')
+const {provider,lampung,jakarta,jateng,yogyakarta,jatim,bali,ntb,sumut,sumsel} = require('../models')
 
 
 /**
@@ -541,6 +541,66 @@ router.delete('/sumut/:id',async(req,res)=>{
       const id = req.params.id
       const data = await sumut.destroy({where:{id:id}})
       res.json('sukse hapus data ' + id)
+   } catch (error) {
+       res.json(error)
+   }
+})
+
+/**
+ * @description Sumsel API
+ */
+
+router.get('/sumsel',async(req,res)=>{
+    try {
+        const data = await sumsel.findAll()
+        res.json(data)
+    } catch (error) {
+        res.json(error)
+    }
+})
+router.post('/sumsel',async(req,res)=>{
+   try {
+       const {name,place,phone} = req.body
+       const data = await sumsel.create(
+           {
+               name,
+               place,
+               phone
+           }
+       )
+       res.json(data)
+   } catch (error) {
+       res.json(error)
+   }
+})
+
+router.put('/sumsel/:id',async(req,res)=>{
+   try {
+      const id = req.params.id
+      const {name,place,phone} = req.body
+      const data = await sumsel.update(
+          {
+              name,
+              place,
+              phone
+          },
+          {
+             where : {
+                 id : id
+             }
+          }
+      )
+      res.json(data)
+   } catch (error) {
+       res.json(error)
+   }
+})
+
+router.delete('/sumsel/:id',async(req,res)=>{
+   try {
+      const id = req.params.id
+      const data = await sumsel.destroy({where:{id:id}})
+      res.json('sukses hapus data ' + id)
    } catch (error) {
        res.json(error)
    }
