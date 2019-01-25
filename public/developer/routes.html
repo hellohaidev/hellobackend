@@ -1,0 +1,92 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <p>
+            AIzaSyDI6V_nRIn8zAzfJuBNpzdQbV33jWWb4Ps
+    </p>
+    
+        <label>origin</label>
+        <input type="text" id="origin" placeholder="origin place"/>
+        <br>
+        <label>destination</label>
+        <input type="text" id="destination" placeholder="destination place"/>
+        <br>
+        <br>        
+        <input type="submit" id="send" />
+
+        <br>
+
+        
+        <div id="data">
+
+        </div>
+        
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+        <script async>
+            (async()=>{
+                let btnsend = document.getElementById('send')
+    
+                    btnsend.addEventListener('click',async(req,res) => {
+
+                    let originplace = document.getElementById('origin').value
+                    let destinationplace = document.getElementById('destination').value
+                
+                    let url =  `http://localhost:5000/map/route?origin=${originplace}&destination=${destinationplace}`
+                    
+                    const dataroute = await axios.get(url)
+                    // console.log(dataroute.data)
+                    dataroute.data.routes.map(item=>{
+                        item.legs.map(child => {
+
+                                
+                                let tarifKm = child.distance.value / 1000
+                                let harga
+                                
+                                /*
+                                logic check by Km and calculate with price per Km
+                                */
+
+                                if(tarifKm < 1000 ){
+                                    harga = tarifKm * 1000
+                                }else if(tarifKm < 2000){
+                                    harga = tarifKm * 2000
+                                }
+                                else if(tarifKm > 2000){
+                                    harga = tarifKm * 3000
+                                }
+
+                                $('#data').empty()
+                                $('#data').append(`
+                                <p>Alamat Asal : ${child.start_address}</p>
+                                <p>Alamat Tujuan : ${child.end_address}</p>
+
+                                <p>Total Jarak : ${child.distance.text}</p>
+                                <p>Value : ${child.distance.value}</p>
+
+                                <p>Tarif : ${ new Intl.NumberFormat('in-ID',{style:'currency',currency:'IDR'}) .format(harga)}</p>
+
+                                `)  
+                            })
+                        })
+                    })
+
+
+            })()
+                   
+        </script>
+
+       
+       
+    </form>
+</body>
+</html>

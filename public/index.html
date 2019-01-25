@@ -7,18 +7,23 @@
   
   
   <style>
+
     #map {
-      height:500px;
-      width:100%;
+      height:100%;
+    }
+     html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
     }
   </style>
 </head>
 
 <body>
-  <h1 class="text-center">Express</h1>
-  <p class="text-center">Welcome to Express</p>
+ 
   <div id="map"></div>
-  
+
+
 
 
   
@@ -46,10 +51,10 @@
         }
        };
       function initMap() {
-        let centerPosition  = {lat: -7.351121, lng:  108.214554}
+        let centerPosition  = {lat: -4.213056, lng:  122.062827}
         let map = new google.maps.Map(document.getElementById('map'), {
           center: centerPosition,
-          zoom: 6
+          zoom: 5
         })
 
         let infoWindow  = new google.maps.InfoWindow;
