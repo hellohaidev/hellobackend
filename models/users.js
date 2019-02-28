@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     nama: DataTypes.STRING,
     pangkat: DataTypes.STRING,
     golongan: DataTypes.STRING,
-    jenjang_jabatang: DataTypes.STRING,
+    jenjang_jabatan: DataTypes.STRING,
     nama_jabatan: DataTypes.STRING,
     unit_kerja: DataTypes.STRING,
     tempat_lahir: DataTypes.STRING,
